@@ -6,7 +6,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                url: 'https://github.com/saroj2006/whack-a-mole-devops'
+                url: 'https://github.com/saroj2006/whack-a-mole-devops.git'
             }
         }
 

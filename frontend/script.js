@@ -1,69 +1,88 @@
-const board=document.getElementById('board');
-const scoreEl=document.getElementById('score');
-const timeEl=document.getElementById('time');
-const startBtn=document.getElementById('startBtn');
-const submitBtn=document.getElementById('submitBtn');
-const leaderboard=document.getElementById('leaderboard');
-const msg=document.getElementById('message');
-const usernameInput=document.getElementById('username');
-let score=0,time=30,timer,moleTimer,current=-1,gameRunning=false;
+let score = 0;
+let time = 30;
+let currentMole = -1;
+let timer;
+let moleTimer;
 
-for(let i=0;i<9;i++){
- const d=document.createElement('div');
- d.className='hole';
- d.onclick=()=>{ if(gameRunning && i===current){ score++; scoreEl.textContent=score; current=-1; d.classList.remove('mole'); } };
- board.appendChild(d);
-}
-const holes=document.querySelectorAll('.hole');
+const grid = document.getElementById("grid");
 
-function showMessage(t){ msg.textContent=t; setTimeout(()=>msg.textContent='',2500); }
-function showMole(){
- holes.forEach(h=>h.classList.remove('mole'));
- current=Math.floor(Math.random()*9);
- holes[current].classList.add('mole');
-}
-async function loadLeaderboard(){
- try{
-   const r=await fetch('/api/leaderboard');
-   const data=await r.json();
-   leaderboard.innerHTML='';
-   if(data.length===0){ leaderboard.innerHTML='<li>No scores yet</li>'; return; }
-   data.forEach((x,i)=>{
-     const li=document.createElement('li');
-     li.textContent=`${i+1}. ${x.username} — ${x.score}`;
-     leaderboard.appendChild(li);
-   });
- }catch{ leaderboard.innerHTML='<li>API not connected</li>'; }
+for (let i = 0; i < 9; i++) {
+  const div = document.createElement("div");
+  div.classList.add("hole");
+  div.setAttribute("data-id", i);
+  div.addEventListener("click", hitMole);
+  grid.appendChild(div);
 }
 
-startBtn.onclick=()=>{
- const username=usernameInput.value.trim();
- if(!username){ showMessage('Please enter your name first!'); return; }
- gameRunning=true; score=0; time=30;
- scoreEl.textContent=0; timeEl.textContent=30; submitBtn.disabled=true;
- showMole();
-  moleTimer=setInterval(showMole,700);
- timer=setInterval(()=>{
-   time--; timeEl.textContent=time;
-   if(time<=0){
-     clearInterval(timer); clearInterval(moleTimer);
-     holes.forEach(h=>h.classList.remove('mole'));
-     gameRunning=false;
-     submitBtn.disabled=false;
-     showMessage('Game over! Submit your score.');
-   }
- },1000);
-};
+function startGame() {
+  score = 0;
+  time = 30;
+  document.getElementById("score").innerText = score;
+  document.getElementById("time").innerText = time;
 
-submitBtn.onclick=async()=>{
- const username=usernameInput.value.trim();
- if(!username) return;
- const r=await fetch('/api/score',{
-   method:'POST',
-   headers:{'Content-Type':'application/json'},
-   body:JSON.stringify({username,score})
- });
-  if(r.ok){ showMessage('Score submitted!'); submitBtn.disabled=true; loadLeaderboard(); }
-};
+  timer = setInterval(countdown, 1000);
+  moleTimer = setInterval(showMole, 800);
+}
+
+function countdown() {
+  time--;
+  document.getElementById("time").innerText = time;
+
+  if (time <= 0) {
+    clearInterval(timer);
+    clearInterval(moleTimer);
+    alert("Game Over! Score: " + score);
+  }
+}
+
+function showMole() {
+  document.querySelectorAll(".hole").forEach(h => {
+    h.innerHTML = "";
+  });
+
+  currentMole = Math.floor(Math.random() * 9);
+  const mole = document.querySelector(`[data-id="${currentMole}"]`);
+  mole.innerHTML = "🐹";
+}
+
+function hitMole(e) {
+  const id = e.target.getAttribute("data-id");
+
+  if (parseInt(id) === currentMole) {
+    score++;
+    document.getElementById("score").innerText = score;
+  }
+}
+
+/* backend unchanged */
+function submitScore() {
+  const name = document.getElementById("playerName").value;
+
+  if (!name) {
+    alert("Enter name first!");
+    return;
+  }
+
+  fetch("/api/score", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, score })
+  }).then(() => {
+    loadLeaderboard();
+  });
+}
+
+function loadLeaderboard() {
+  fetch("/api/leaderboard")
+    .then(res => res.json())
+    .then(data => {
+      const lb = document.getElementById("leaderboard");
+      lb.innerHTML = "";
+
+      data.forEach((item, i) => {
+        lb.innerHTML += `<div>${i + 1}. ${item.name} - ${item.score}</div>`;
+      });
+    });
+}
 
 loadLeaderboard();

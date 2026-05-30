@@ -1,117 +1,28 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: white;
-  text-align: center;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#141e30,#243b55);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
-
-/* background glow */
-.bg {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at top, #1e293b, #0f172a);
-  z-index: -1;
-}
-
-.container {
-  max-width: 700px;
-  margin: auto;
-  padding: 20px;
-}
-
-/* title */
-h1 {
-  margin-bottom: 10px;
-  color: #38bdf8;
-}
-
-/* input area */
-.start-box {
-  margin: 15px 0;
-}
-
-input {
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  width: 60%;
-}
-
-button {
-  padding: 10px 15px;
-  margin-left: 10px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: #38bdf8;
-  color: black;
-  font-weight: bold;
-  transition: 0.2s;
-}
-
-button:hover {
-  transform: scale(1.05);
-}
-
-/* info bar */
-.info {
-  display: flex;
-  justify-content: space-around;
-  margin: 20px 0;
-  font-size: 18px;
-}
-
-/* grid */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  margin: 20px 0;
-}
-
-/* holes */
-.hole {
-  width: 100px;
-  height: 100px;
-  background: #1e293b;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.hole:hover {
-  background: #334155;
-  transform: scale(1.05);
-}
-
-/* mole */
-.mole {
-  background: #22c55e;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
-}
-
-/* submit */
-.submit-btn {
-  margin-top: 10px;
-  background: #f59e0b;
-}
-
-/* leaderboard */
-.leaderboard {
-  margin-top: 10px;
-  padding: 10px;
-  background: #1e293b;
-  border-radius: 10px;
-}
+.bg-glow{position:fixed; inset:0; background:radial-gradient(circle at top,#7f5af0 0%,transparent 40%);}
+.container{position:relative; z-index:1; width:420px; padding:25px; backdrop-filter:blur(18px); background:rgba(255,255,255,.08); border-radius:24px; box-shadow:0 20px 40px rgba(0,0,0,.4); text-align:center;}
+h1{margin:0}.subtitle{opacity:.8}
+.user-panel{display:flex; gap:10px; margin:20px 0}
+input,button{padding:12px;border:none;border-radius:12px}
+input{flex:1}
+button{background:#7f5af0;color:white;font-weight:700;cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+.stats{display:flex;justify-content:space-between;margin:15px 0}
+.card{width:48%;padding:15px;background:rgba(255,255,255,.12);border-radius:16px}
+.board{margin:20px auto;display:grid;grid-template-columns:repeat(3,100px);gap:10px;justify-content:center}
+.hole{width:100px;height:100px;background:#1e1e1e;border-radius:20px;box-shadow:inset 0 6px 10px rgba(0,0,0,.6);cursor:pointer;transition:.2s}
+.hole:hover{transform:scale(1.03)}
+.mole{background:radial-gradient(circle,#ffd166,#ff9f1c); transform:translateY(-6px)}
+#leaderboard{padding:0;list-style:none;text-align:left}
+#leaderboard li{background:rgba(255,255,255,.1);margin:8px 0;padding:10px;border-radius:10px}
+#message{min-height:24px;color:#ffd166;font-weight:bold}

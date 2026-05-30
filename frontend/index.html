@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎯 Whack-a-Mole Deluxe</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg-glow"></div>
+  <div class="container">
+    <h1>🎯 Whack-a-Mole Deluxe</h1>
+    <p class="subtitle">Whack fast. Score big. Top the leaderboard.</p>
+
+    <div class="user-panel">
+      <input id="username" placeholder="Enter your name" maxlength="20" />
+      <button id="startBtn">Start Game</button>
+    </div>
+
+    <div class="stats">
+      <div class="card">Score<br><b id="score">0</b></div>
+      <div class="card">Time<br><b id="time">30</b>s</div>
+    </div>
+
+    <div id="message"></div>
+    <div id="board" class="board"></div>
+
+    <button id="submitBtn" disabled>Submit Score</button>
+
+    <h2>🏆 Leaderboard</h2>
+    <ul id="leaderboard"></ul>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

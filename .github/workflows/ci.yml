@@ -1,0 +1,17 @@
+name: Test Secrets
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Username Exists
+        run: |
+          if [ -z "${{ secrets.DOCKER_USERNAME }}" ]; then
+            echo "Username missing"
+            exit 1
+          fi
+          echo "Username found"

@@ -9,13 +9,11 @@ pipeline {
                 url: 'https://github.com/saroj2006/whack-a-mole-devops.git'
             }
         }
-
         stage('Build') {
             steps {
                 bat 'docker compose build'
             }
         }
-
         stage('Deploy') {
             steps {
                 bat 'docker compose down || exit 0'
@@ -23,7 +21,6 @@ pipeline {
             }
         }
     }
-
     post {
         success {
             echo 'Deployment Successful'
